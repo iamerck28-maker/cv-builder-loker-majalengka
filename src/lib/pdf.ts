@@ -1,29 +1,23 @@
-import html2pdf from 'html2pdf.js';
-
-interface Html2PdfOptions {
-  margin: number;
-  filename: string;
-  image: { type: string; quality: number };
-  html2canvas: { 
-    scale: number;
-    useCORS: boolean;
-    letterRendering: boolean;
-  };
-  jsPDF: { 
-    unit: string; 
-    format: string; 
-    orientation: string;
-  };
-}
+'use client';
 
 export async function generatePDF(elementId: string, filename: string = 'cv.pdf'): Promise<void> {
+  // Only run on client side
+  if (typeof window === 'undefined') {
+    console.error('PDF generation only works on client side');
+    return;
+  }
+
   const element = document.getElementById(elementId);
   if (!element) {
     console.error('Element not found:', elementId);
     return;
   }
 
-  const opt: Html2PdfOptions = {
+  // Dynamic import to avoid server-side rendering issues
+  const html2pdfModule = await import('html2pdf.js');
+  const html2pdf = html2pdfModule.default;
+
+  const opt = {
     margin: 0,
     filename,
     image: { type: 'jpeg', quality: 0.98 },
