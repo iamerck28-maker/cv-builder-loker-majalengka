@@ -1,5 +1,21 @@
 import html2pdf from 'html2pdf.js';
 
+interface Html2PdfOptions {
+  margin: number;
+  filename: string;
+  image: { type: string; quality: number };
+  html2canvas: { 
+    scale: number;
+    useCORS: boolean;
+    letterRendering: boolean;
+  };
+  jsPDF: { 
+    unit: string; 
+    format: string; 
+    orientation: string;
+  };
+}
+
 export async function generatePDF(elementId: string, filename: string = 'cv.pdf'): Promise<void> {
   const element = document.getElementById(elementId);
   if (!element) {
@@ -7,7 +23,7 @@ export async function generatePDF(elementId: string, filename: string = 'cv.pdf'
     return;
   }
 
-  const opt = {
+  const opt: Html2PdfOptions = {
     margin: 0,
     filename,
     image: { type: 'jpeg', quality: 0.98 },
@@ -19,12 +35,13 @@ export async function generatePDF(elementId: string, filename: string = 'cv.pdf'
     jsPDF: { 
       unit: 'mm', 
       format: 'a4', 
-      orientation: 'portrait' as const,
+      orientation: 'portrait',
     },
   };
 
   try {
-    await html2pdf().set(opt).from(element).save();
+    const html2pdfInstance = html2pdf();
+    await html2pdfInstance.set(opt as any).from(element).save();
   } catch (error) {
     console.error('Failed to generate PDF:', error);
     throw error;
