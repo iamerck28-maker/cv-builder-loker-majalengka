@@ -1,0 +1,85 @@
+{
+  "app": {
+    "title": "CV Builder Loker Majalengka",
+    "subtitle": "Buat CV profesional dalam hitungan menit"
+  },
+  "nav": {
+    "home": "Beranda",
+    "builder": "Buat CV",
+    "about": "Tentang"
+  },
+  "landing": {
+    "hero": {
+      "title": "Buat CV Profesional",
+      "subtitle": "Tanpa ribet, tanpa mahal. Langsung jadi PDF.",
+      "cta": "Mulai Buat CV"
+    },
+    "features": {
+      "ats": "Template ATS-Friendly",
+      "fast": "Cepat & Mudah",
+      "free": "Gratis",
+      "pdf": "Download PDF"
+    }
+  },
+  "form": {
+    "personal": {
+      "title": "Data Pribadi",
+      "fullName": "Nama Lengkap",
+      "email": "Email",
+      "phone": "Telepon",
+      "city": "Kota",
+      "linkedin": "LinkedIn (opsional)",
+      "photo": "Foto Profil"
+    },
+    "summary": {
+      "title": "Ringkasan",
+      "placeholder": "Tulis ringkasan singkat tentang diri Anda..."
+    },
+    "education": {
+      "title": "Pendidikan",
+      "institution": "Institusi",
+      "major": "Jurusan",
+      "startYear": "Tahun Mulai",
+      "endYear": "Tahun Selesai",
+      "gpa": "IPK (opsional)",
+      "add": "Tambah Pendidikan"
+    },
+    "experience": {
+      "title": "Pengalaman Kerja",
+      "company": "Perusahaan",
+      "position": "Posisi",
+      "startDate": "Tanggal Mulai",
+      "endDate": "Tanggal Selesai",
+      "description": "Deskripsi Pekerjaan",
+      "add": "Tambah Pengalaman",
+      "addDescription": "Tambah Poin"
+    },
+    "skills": {
+      "title": "Keahlian",
+      "name": "Nama Keahlian",
+      "category": "Kategori",
+      "technical": "Teknis",
+      "soft": "Soft Skill",
+      "add": "Tambah Keahlian"
+    },
+    "languages": {
+      "title": "Bahasa",
+      "name": "Nama Bahasa",
+      "level": "Level",
+      "pemula": "Pemula",
+      "menengah": "Menengah",
+      "mahir": "Mahir",
+      "native": "Native",
+      "add": "Tambah Bahasa"
+    }
+  },
+  "template": {
+    "ats": "Template ATS",
+    "creative": "Template Kreatif"
+  },
+  "actions": {
+    "download": "Download PDF",
+    "save": "Simpan",
+    "preview": "Preview"
+  }
+}

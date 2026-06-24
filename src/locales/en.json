@@ -1,0 +1,85 @@
+{
+  "app": {
+    "title": "CV Builder Loker Majalengka",
+    "subtitle": "Create a professional CV in minutes"
+  },
+  "nav": {
+    "home": "Home",
+    "builder": "Build CV",
+    "about": "About"
+  },
+  "landing": {
+    "hero": {
+      "title": "Build Your Professional CV",
+      "subtitle": "No hassle, no expensive tools. Instant PDF download.",
+      "cta": "Start Building CV"
+    },
+    "features": {
+      "ats": "ATS-Friendly Templates",
+      "fast": "Quick & Easy",
+      "free": "Free",
+      "pdf": "Download PDF"
+    }
+  },
+  "form": {
+    "personal": {
+      "title": "Personal Information",
+      "fullName": "Full Name",
+      "email": "Email",
+      "phone": "Phone",
+      "city": "City",
+      "linkedin": "LinkedIn (optional)",
+      "photo": "Profile Photo"
+    },
+    "summary": {
+      "title": "Summary",
+      "placeholder": "Write a brief summary about yourself..."
+    },
+    "education": {
+      "title": "Education",
+      "institution": "Institution",
+      "major": "Major",
+      "startYear": "Start Year",
+      "endYear": "End Year",
+      "gpa": "GPA (optional)",
+      "add": "Add Education"
+    },
+    "experience": {
+      "title": "Work Experience",
+      "company": "Company",
+      "position": "Position",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "description": "Job Description",
+      "add": "Add Experience",
+      "addDescription": "Add Point"
+    },
+    "skills": {
+      "title": "Skills",
+      "name": "Skill Name",
+      "category": "Category",
+      "technical": "Technical",
+      "soft": "Soft Skill",
+      "add": "Add Skill"
+    },
+    "languages": {
+      "title": "Languages",
+      "name": "Language Name",
+      "level": "Level",
+      "pemula": "Beginner",
+      "menengah": "Intermediate",
+      "mahir": "Advanced",
+      "native": "Native",
+      "add": "Add Language"
+    }
+  },
+  "template": {
+    "ats": "ATS Template",
+    "creative": "Creative Template"
+  },
+  "actions": {
+    "download": "Download PDF",
+    "save": "Save",
+    "preview": "Preview"
+  }
+}
