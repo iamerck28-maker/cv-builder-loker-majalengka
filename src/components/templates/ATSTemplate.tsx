@@ -5,17 +5,37 @@ import { CVData } from '@/types/cv';
 interface ATSTemplateProps {
   data: CVData;
   colorScheme: string;
+  locale: {
+    template: {
+      sections: { summary: string; education: string; experience: string; skills: string; languages: string };
+      gpa: string;
+      present: string;
+      namePlaceholder: string;
+    };
+    form: {
+      languages: { pemula: string; menengah: string; mahir: string; native: string };
+    };
+  };
 }
 
-export function ATSTemplate({ data, colorScheme }: ATSTemplateProps) {
+const levelMap = { Pemula: 'pemula', Menengah: 'menengah', Mahir: 'mahir', Native: 'native' } as const;
+
+export function ATSTemplate({ data, colorScheme, locale }: ATSTemplateProps) {
+  const t = locale.template;
+
   const formatDate = (date: string) => {
-    if (!date) return 'Present';
+    if (!date) return t.present;
     const [year, month] = date.split('-');
     const months = [
       'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
       'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
     ];
     return `${months[parseInt(month) - 1]} ${year}`;
+  };
+
+  const translateLevel = (level: string) => {
+    const key = levelMap[level as keyof typeof levelMap];
+    return key ? locale.form.languages[key] : level;
   };
 
   return (
@@ -30,7 +50,7 @@ export function ATSTemplate({ data, colorScheme }: ATSTemplateProps) {
           />
         )}
         <h1 className="text-2xl font-bold" style={{ color: colorScheme }}>
-          {data.personal.fullName || 'Nama Anda'}
+          {data.personal.fullName || t.namePlaceholder}
         </h1>
         <div className="flex flex-wrap justify-center gap-4 mt-2 text-gray-600">
           {data.personal.email && <span>{data.personal.email}</span>}
@@ -44,7 +64,7 @@ export function ATSTemplate({ data, colorScheme }: ATSTemplateProps) {
       {data.summary && (
         <div className="mb-6">
           <h2 className="text-lg font-semibold border-b pb-1 mb-2" style={{ color: colorScheme }}>
-            Ringkasan
+            {t.sections.summary}
           </h2>
           <p className="text-gray-700">{data.summary}</p>
         </div>
@@ -54,7 +74,7 @@ export function ATSTemplate({ data, colorScheme }: ATSTemplateProps) {
       {data.education.length > 0 && (
         <div className="mb-6">
           <h2 className="text-lg font-semibold border-b pb-1 mb-2" style={{ color: colorScheme }}>
-            Pendidikan
+            {t.sections.education}
           </h2>
           {data.education.map((edu, index) => (
             <div key={index} className="mb-3">
@@ -65,7 +85,7 @@ export function ATSTemplate({ data, colorScheme }: ATSTemplateProps) {
                 </span>
               </div>
               <div className="text-gray-600">{edu.major}</div>
-              {edu.gpa && <div className="text-gray-500 text-xs">IPK: {edu.gpa}</div>}
+              {edu.gpa && <div className="text-gray-500 text-xs">{t.gpa}: {edu.gpa}</div>}
             </div>
           ))}
         </div>
@@ -75,7 +95,7 @@ export function ATSTemplate({ data, colorScheme }: ATSTemplateProps) {
       {data.experience.length > 0 && (
         <div className="mb-6">
           <h2 className="text-lg font-semibold border-b pb-1 mb-2" style={{ color: colorScheme }}>
-            Pengalaman Kerja
+            {t.sections.experience}
           </h2>
           {data.experience.map((exp, index) => (
             <div key={index} className="mb-4">
@@ -102,7 +122,7 @@ export function ATSTemplate({ data, colorScheme }: ATSTemplateProps) {
       {data.skills.length > 0 && (
         <div className="mb-6">
           <h2 className="text-lg font-semibold border-b pb-1 mb-2" style={{ color: colorScheme }}>
-            Keahlian
+            {t.sections.skills}
           </h2>
           <div className="flex flex-wrap gap-2">
             {data.skills.map((skill, index) => (
@@ -125,13 +145,13 @@ export function ATSTemplate({ data, colorScheme }: ATSTemplateProps) {
       {data.languages.length > 0 && (
         <div className="mb-6">
           <h2 className="text-lg font-semibold border-b pb-1 mb-2" style={{ color: colorScheme }}>
-            Bahasa
+            {t.sections.languages}
           </h2>
           <div className="grid grid-cols-2 gap-2">
             {data.languages.map((lang, index) => (
               <div key={index} className="flex justify-between">
                 <span>{lang.name}</span>
-                <span className="text-gray-500">{lang.level}</span>
+                <span className="text-gray-500">{translateLevel(lang.level)}</span>
               </div>
             ))}
           </div>

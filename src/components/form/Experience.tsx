@@ -7,11 +7,12 @@ import { Textarea } from '@/components/ui/textarea';
 import { useCVStore } from '@/lib/store';
 import { Experience } from '@/types/cv';
 import { Plus, Trash2 } from 'lucide-react';
-import locales from '@/locales/id.json';
+import { useLocale } from '@/hooks/useLocale';
 
 export function ExperienceForm() {
   const { data, updateData } = useCVStore();
-  const t = locales.form.experience;
+  const locale = useLocale();
+  const t = locale.form.experience;
 
   const addExperience = () => {
     const newExperience: Experience = {
@@ -80,7 +81,7 @@ export function ExperienceForm() {
       {data.experience.map((exp, index) => (
         <div key={index} className="p-4 border rounded-lg space-y-4">
           <div className="flex justify-between items-center">
-            <span className="font-medium">Pengalaman {index + 1}</span>
+            <span className="font-medium">{t.entry} {index + 1}</span>
             <Button
               variant="ghost"
               size="icon"
@@ -136,7 +137,7 @@ export function ExperienceForm() {
                 <Textarea
                   value={desc}
                   onChange={(e) => updateDescriptionPoint(index, pointIndex, e.target.value)}
-                  placeholder={`Poin ${pointIndex + 1}`}
+                  placeholder={`${t.pointPlaceholder} ${pointIndex + 1}`}
                   className="flex-1"
                 />
                 {exp.description.length > 1 && (

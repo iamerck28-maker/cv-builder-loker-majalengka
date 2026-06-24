@@ -6,11 +6,12 @@ import { Button } from '@/components/ui/button';
 import { useCVStore } from '@/lib/store';
 import { Education } from '@/types/cv';
 import { Plus, Trash2 } from 'lucide-react';
-import locales from '@/locales/id.json';
+import { useLocale } from '@/hooks/useLocale';
 
 export function EducationForm() {
   const { data, updateData } = useCVStore();
-  const t = locales.form.education;
+  const locale = useLocale();
+  const t = locale.form.education;
 
   const addEducation = () => {
     const newEducation: Education = {
@@ -44,7 +45,7 @@ export function EducationForm() {
       {data.education.map((edu, index) => (
         <div key={index} className="p-4 border rounded-lg space-y-4">
           <div className="flex justify-between items-center">
-            <span className="font-medium">Pendidikan {index + 1}</span>
+            <span className="font-medium">{t.entry} {index + 1}</span>
             <Button
               variant="ghost"
               size="icon"

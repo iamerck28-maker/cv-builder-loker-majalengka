@@ -6,11 +6,12 @@ import { Button } from '@/components/ui/button';
 import { useCVStore } from '@/lib/store';
 import { Language } from '@/types/cv';
 import { Plus, Trash2 } from 'lucide-react';
-import locales from '@/locales/id.json';
+import { useLocale } from '@/hooks/useLocale';
 
 export function LanguagesForm() {
   const { data, updateData } = useCVStore();
-  const t = locales.form.languages;
+  const locale = useLocale();
+  const t = locale.form.languages;
 
   const addLanguage = () => {
     const newLanguage: Language = {

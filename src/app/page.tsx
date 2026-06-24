@@ -1,9 +1,15 @@
+'use client';
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { FileText, Zap, Download, Sparkles } from 'lucide-react';
+import { useLocale } from '@/hooks/useLocale';
 
 export default function Home() {
+  const locale = useLocale();
+  const t = locale.landing;
+
   return (
     <main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       {/* Header */}
@@ -14,7 +20,7 @@ export default function Home() {
             <span className="text-xl font-bold text-gray-900">CV Builder</span>
           </div>
           <Link href="/builder">
-            <Button>Buat CV Sekarang</Button>
+            <Button>{t.headerCta}</Button>
           </Link>
         </nav>
       </header>
@@ -22,16 +28,15 @@ export default function Home() {
       {/* Hero Section */}
       <section className="container mx-auto px-4 py-20 text-center">
         <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-          Buat CV Profesional
-          <span className="text-blue-600"> dalam Hitungan Menit</span>
+          {t.hero.title}
+          <span className="text-blue-600"> {t.hero.titleHighlight}</span>
         </h1>
         <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-          Tanpa ribet, tanpa mahal. Pilih template, isi data, langsung download PDF. 
-          Cocok untuk melamar kerja di Majalengka dan sekitarnya.
+          {t.hero.subtitle}
         </p>
         <Link href="/builder">
           <Button size="lg" className="text-lg px-8">
-            Mulai Buat CV
+            {t.hero.cta}
             <Sparkles className="ml-2 h-5 w-5" />
           </Button>
         </Link>
@@ -43,11 +48,11 @@ export default function Home() {
           <Card>
             <CardHeader>
               <Zap className="h-10 w-10 text-blue-600 mb-2" />
-              <CardTitle>Cepat & Mudah</CardTitle>
+              <CardTitle>{t.features.fast}</CardTitle>
             </CardHeader>
             <CardContent>
               <CardDescription>
-                Isi formulir sederhana, langsung jadi CV. Tidak perlu desain sendiri.
+                {t.features.fastDesc}
               </CardDescription>
             </CardContent>
           </Card>
@@ -55,11 +60,11 @@ export default function Home() {
           <Card>
             <CardHeader>
               <FileText className="h-10 w-10 text-green-600 mb-2" />
-              <CardTitle>ATS-Friendly</CardTitle>
+              <CardTitle>{t.features.ats}</CardTitle>
             </CardHeader>
             <CardContent>
               <CardDescription>
-                Template dirancang agar mudah dibaca oleh sistem ATS perusahaan.
+                {t.features.atsDesc}
               </CardDescription>
             </CardContent>
           </Card>
@@ -67,11 +72,11 @@ export default function Home() {
           <Card>
             <CardHeader>
               <Download className="h-10 w-10 text-purple-600 mb-2" />
-              <CardTitle>Download PDF</CardTitle>
+              <CardTitle>{t.features.pdf}</CardTitle>
             </CardHeader>
             <CardContent>
               <CardDescription>
-                Langsung download sebagai PDF berkualitas tinggi, siap dikirim.
+                {t.features.pdfDesc}
               </CardDescription>
             </CardContent>
           </Card>
@@ -80,7 +85,7 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="container mx-auto px-4 py-8 text-center text-gray-600">
-        <p>© 2024 CV Builder Loker Majalengka. Dibuat dengan ❤️</p>
+        <p>{t.footer}</p>
       </footer>
     </main>
   );

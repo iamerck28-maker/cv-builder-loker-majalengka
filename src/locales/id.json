@@ -11,15 +11,21 @@
   "landing": {
     "hero": {
       "title": "Buat CV Profesional",
-      "subtitle": "Tanpa ribet, tanpa mahal. Langsung jadi PDF.",
+      "titleHighlight": "dalam Hitungan Menit",
+      "subtitle": "Tanpa ribet, tanpa mahal. Pilih template, isi data, langsung download PDF. Cocok untuk melamar kerja di Majalengka dan sekitarnya.",
       "cta": "Mulai Buat CV"
     },
     "features": {
-      "ats": "Template ATS-Friendly",
+      "ats": "ATS-Friendly",
+      "atsDesc": "Template dirancang agar mudah dibaca oleh sistem ATS perusahaan.",
       "fast": "Cepat & Mudah",
+      "fastDesc": "Isi formulir sederhana, langsung jadi CV. Tidak perlu desain sendiri.",
       "free": "Gratis",
-      "pdf": "Download PDF"
-    }
+      "pdf": "Download PDF",
+      "pdfDesc": "Langsung download sebagai PDF berkualitas tinggi, siap dikirim."
+    },
+    "headerCta": "Buat CV Sekarang",
+    "footer": "© 2024 CV Builder Loker Majalengka. Dibuat dengan ❤️"
   },
   "form": {
     "personal": {
@@ -42,7 +48,8 @@
       "startYear": "Tahun Mulai",
       "endYear": "Tahun Selesai",
       "gpa": "IPK (opsional)",
-      "add": "Tambah Pendidikan"
+      "add": "Tambah Pendidikan",
+      "entry": "Pendidikan"
     },
     "experience": {
       "title": "Pengalaman Kerja",
@@ -52,7 +59,9 @@
       "endDate": "Tanggal Selesai",
       "description": "Deskripsi Pekerjaan",
       "add": "Tambah Pengalaman",
-      "addDescription": "Tambah Poin"
+      "addDescription": "Tambah Poin",
+      "entry": "Pengalaman",
+      "pointPlaceholder": "Poin"
     },
     "skills": {
       "title": "Keahlian",
@@ -74,12 +83,43 @@
     }
   },
   "template": {
-    "ats": "Template ATS",
-    "creative": "Template Kreatif"
+    "ats": "ATS",
+    "creative": "Kreatif",
+    "sections": {
+      "summary": "Ringkasan",
+      "education": "Pendidikan",
+      "experience": "Pengalaman Kerja",
+      "skills": "Keahlian",
+      "languages": "Bahasa",
+      "contact": "Kontak"
+    },
+    "gpa": "IPK",
+    "present": "Sekarang",
+    "namePlaceholder": "Nama Anda"
+  },
+  "builder": {
+    "form": "Form",
+    "preview": "Preview",
+    "previewCV": "Preview CV",
+    "generating": "Mengunduh...",
+    "downloadPDF": "Download PDF"
   },
   "actions": {
     "download": "Download PDF",
     "save": "Simpan",
     "preview": "Preview"
+  },
+  "login": {
+    "title": "Masuk ke CV Builder",
+    "subtitle": "Masukkan data Anda untuk mulai membuat CV",
+    "name": "Nama Lengkap",
+    "namePlaceholder": "Masukkan nama Anda",
+    "email": "Email",
+    "emailPlaceholder": "Masukkan email Anda",
+    "submit": "Mulai Buat CV",
+    "nameRequired": "Nama harus diisi",
+    "emailRequired": "Email harus diisi",
+    "emailInvalid": "Format email tidak valid",
+    "logout": "Keluar"
   }
 }

@@ -12,20 +12,24 @@ import { LanguagesForm } from '@/components/form/Languages';
 import { ATSTemplate } from '@/components/templates/ATSTemplate';
 import { CreativeTemplate } from '@/components/templates/CreativeTemplate';
 import { useCVStore } from '@/lib/store';
+import { useLocale } from '@/hooks/useLocale';
 import { generatePDF } from '@/lib/pdf';
-import { Download, Eye, FileText, Palette } from 'lucide-react';
+import { Download, Eye, FileText, Globe } from 'lucide-react';
 
 export default function BuilderPage() {
   const {
     data,
     template,
+    language,
     colorScheme,
     loadFromStorage,
     saveToStorage,
     setTemplate,
+    setLanguage,
     setColorScheme,
   } = useCVStore();
 
+  const locale = useLocale();
   const [activeTab, setActiveTab] = useState<'form' | 'preview'>('form');
   const [isGenerating, setIsGenerating] = useState(false);
 
@@ -35,7 +39,7 @@ export default function BuilderPage() {
 
   useEffect(() => {
     saveToStorage();
-  }, [data, template, colorScheme, saveToStorage]);
+  }, [data, template, language, colorScheme, saveToStorage]);
 
   const handleDownload = async () => {
     setIsGenerating(true);
@@ -67,8 +71,29 @@ export default function BuilderPage() {
             <FileText className="h-6 w-6 text-blue-600" />
             <span className="text-xl font-bold">CV Builder</span>
           </div>
-          
+
           <div className="flex items-center gap-4">
+            {/* Language Switcher */}
+            <div className="flex items-center gap-1">
+              <Globe className="h-4 w-4 text-gray-500" />
+              <div className="flex items-center gap-1">
+                <Button
+                  variant={language === 'id' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setLanguage('id')}
+                >
+                  ID
+                </Button>
+                <Button
+                  variant={language === 'en' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setLanguage('en')}
+                >
+                  EN
+                </Button>
+              </div>
+            </div>
+
             {/* Template Switcher */}
             <div className="flex items-center gap-2">
               <Button
@@ -76,14 +101,14 @@ export default function BuilderPage() {
                 size="sm"
                 onClick={() => setTemplate('ats')}
               >
-                ATS
+                {locale.template.ats}
               </Button>
               <Button
                 variant={template === 'creative' ? 'default' : 'outline'}
                 size="sm"
                 onClick={() => setTemplate('creative')}
               >
-                Kreatif
+                {locale.template.creative}
               </Button>
             </div>
 
@@ -111,7 +136,7 @@ export default function BuilderPage() {
               className="gap-2"
             >
               <Download className="h-4 w-4" />
-              {isGenerating ? 'Generating...' : 'Download PDF'}
+              {isGenerating ? locale.builder.generating : locale.builder.downloadPDF}
             </Button>
           </div>
         </div>
@@ -128,7 +153,7 @@ export default function BuilderPage() {
                 : 'text-gray-500'
             }`}
           >
-            Form
+            {locale.builder.form}
           </button>
           <button
             onClick={() => setActiveTab('preview')}
@@ -138,7 +163,7 @@ export default function BuilderPage() {
                 : 'text-gray-500'
             }`}
           >
-            Preview
+            {locale.builder.preview}
           </button>
         </div>
       </div>
@@ -157,11 +182,11 @@ export default function BuilderPage() {
 
               <Card>
                 <CardContent className="pt-6">
-                  <h2 className="text-lg font-semibold mb-4">Ringkasan</h2>
+                  <h2 className="text-lg font-semibold mb-4">{locale.form.summary.title}</h2>
                   <Textarea
                     value={data.summary}
                     onChange={(e) => useCVStore.getState().updateData({ summary: e.target.value })}
-                    placeholder="Tulis ringkasan singkat tentang diri Anda..."
+                    placeholder={locale.form.summary.placeholder}
                     rows={4}
                   />
                 </CardContent>
@@ -200,15 +225,15 @@ export default function BuilderPage() {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <Eye className="h-5 w-5" />
-                    Preview CV
+                    {locale.builder.previewCV}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="overflow-auto max-h-[70vh] border rounded-lg">
                     {template === 'ats' ? (
-                      <ATSTemplate data={data} colorScheme={colorScheme} />
+                      <ATSTemplate data={data} colorScheme={colorScheme} locale={locale} />
                     ) : (
-                      <CreativeTemplate data={data} colorScheme={colorScheme} />
+                      <CreativeTemplate data={data} colorScheme={colorScheme} locale={locale} />
                     )}
                   </div>
                 </CardContent>

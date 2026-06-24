@@ -11,15 +11,21 @@
   "landing": {
     "hero": {
       "title": "Build Your Professional CV",
-      "subtitle": "No hassle, no expensive tools. Instant PDF download.",
+      "titleHighlight": "in Minutes",
+      "subtitle": "No hassle, no expensive tools. Pick a template, fill in your data, download PDF instantly. Perfect for job seekers in Majalengka and beyond.",
       "cta": "Start Building CV"
     },
     "features": {
-      "ats": "ATS-Friendly Templates",
+      "ats": "ATS-Friendly",
+      "atsDesc": "Templates designed to be easily read by company ATS systems.",
       "fast": "Quick & Easy",
+      "fastDesc": "Fill in a simple form, get your CV instantly. No design skills needed.",
       "free": "Free",
-      "pdf": "Download PDF"
-    }
+      "pdf": "Download PDF",
+      "pdfDesc": "Download as a high-quality PDF, ready to send."
+    },
+    "headerCta": "Build CV Now",
+    "footer": "© 2024 CV Builder Loker Majalengka. Made with ❤️"
   },
   "form": {
     "personal": {
@@ -42,7 +48,8 @@
       "startYear": "Start Year",
       "endYear": "End Year",
       "gpa": "GPA (optional)",
-      "add": "Add Education"
+      "add": "Add Education",
+      "entry": "Education"
     },
     "experience": {
       "title": "Work Experience",
@@ -52,7 +59,9 @@
       "endDate": "End Date",
       "description": "Job Description",
       "add": "Add Experience",
-      "addDescription": "Add Point"
+      "addDescription": "Add Point",
+      "entry": "Experience",
+      "pointPlaceholder": "Point"
     },
     "skills": {
       "title": "Skills",
@@ -74,12 +83,43 @@
     }
   },
   "template": {
-    "ats": "ATS Template",
-    "creative": "Creative Template"
+    "ats": "ATS",
+    "creative": "Creative",
+    "sections": {
+      "summary": "Summary",
+      "education": "Education",
+      "experience": "Work Experience",
+      "skills": "Skills",
+      "languages": "Languages",
+      "contact": "Contact"
+    },
+    "gpa": "GPA",
+    "present": "Present",
+    "namePlaceholder": "Your Name"
+  },
+  "builder": {
+    "form": "Form",
+    "preview": "Preview",
+    "previewCV": "CV Preview",
+    "generating": "Generating...",
+    "downloadPDF": "Download PDF"
   },
   "actions": {
     "download": "Download PDF",
     "save": "Save",
     "preview": "Preview"
+  },
+  "login": {
+    "title": "Sign in to CV Builder",
+    "subtitle": "Enter your details to start building your CV",
+    "name": "Full Name",
+    "namePlaceholder": "Enter your name",
+    "email": "Email",
+    "emailPlaceholder": "Enter your email",
+    "submit": "Start Building CV",
+    "nameRequired": "Name is required",
+    "emailRequired": "Email is required",
+    "emailInvalid": "Invalid email format",
+    "logout": "Logout"
   }
 }

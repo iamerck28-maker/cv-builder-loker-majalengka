@@ -5,17 +5,37 @@ import { CVData } from '@/types/cv';
 interface CreativeTemplateProps {
   data: CVData;
   colorScheme: string;
+  locale: {
+    template: {
+      sections: { summary: string; education: string; experience: string; skills: string; languages: string; contact: string };
+      gpa: string;
+      present: string;
+      namePlaceholder: string;
+    };
+    form: {
+      languages: { pemula: string; menengah: string; mahir: string; native: string };
+    };
+  };
 }
 
-export function CreativeTemplate({ data, colorScheme }: CreativeTemplateProps) {
+const levelMap = { Pemula: 'pemula', Menengah: 'menengah', Mahir: 'mahir', Native: 'native' } as const;
+
+export function CreativeTemplate({ data, colorScheme, locale }: CreativeTemplateProps) {
+  const t = locale.template;
+
   const formatDate = (date: string) => {
-    if (!date) return 'Present';
+    if (!date) return t.present;
     const [year, month] = date.split('-');
     const months = [
       'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
       'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
     ];
     return `${months[parseInt(month) - 1]} ${year}`;
+  };
+
+  const translateLevel = (level: string) => {
+    const key = levelMap[level as keyof typeof levelMap];
+    return key ? locale.form.languages[key] : level;
   };
 
   return (
@@ -39,7 +59,7 @@ export function CreativeTemplate({ data, colorScheme }: CreativeTemplateProps) {
         {/* Contact */}
         <div className="mb-6">
           <h3 className="text-lg font-semibold mb-3 border-b border-white/30 pb-1">
-            Kontak
+            {t.sections.contact}
           </h3>
           <div className="space-y-2 text-sm">
             {data.personal.email && (
@@ -73,7 +93,7 @@ export function CreativeTemplate({ data, colorScheme }: CreativeTemplateProps) {
         {data.skills.length > 0 && (
           <div className="mb-6">
             <h3 className="text-lg font-semibold mb-3 border-b border-white/30 pb-1">
-              Keahlian
+              {t.sections.skills}
             </h3>
             <div className="space-y-2">
               {data.skills.map((skill, index) => (
@@ -90,13 +110,13 @@ export function CreativeTemplate({ data, colorScheme }: CreativeTemplateProps) {
         {data.languages.length > 0 && (
           <div className="mb-6">
             <h3 className="text-lg font-semibold mb-3 border-b border-white/30 pb-1">
-              Bahasa
+              {t.sections.languages}
             </h3>
             <div className="space-y-2">
               {data.languages.map((lang, index) => (
                 <div key={index} className="flex justify-between text-sm">
                   <span>{lang.name}</span>
-                  <span className="text-white/70">{lang.level}</span>
+                  <span className="text-white/70">{translateLevel(lang.level)}</span>
                 </div>
               ))}
             </div>
@@ -109,7 +129,7 @@ export function CreativeTemplate({ data, colorScheme }: CreativeTemplateProps) {
         {/* Name & Summary */}
         <div className="mb-6">
           <h1 className="text-3xl font-bold mb-2" style={{ color: colorScheme }}>
-            {data.personal.fullName || 'Nama Anda'}
+            {data.personal.fullName || t.namePlaceholder}
           </h1>
           {data.summary && (
             <p className="text-gray-600 leading-relaxed">{data.summary}</p>
@@ -120,7 +140,7 @@ export function CreativeTemplate({ data, colorScheme }: CreativeTemplateProps) {
         {data.education.length > 0 && (
           <div className="mb-6">
             <h2 className="text-xl font-bold mb-3" style={{ color: colorScheme }}>
-              Pendidikan
+              {t.sections.education}
             </h2>
             {data.education.map((edu, index) => (
               <div key={index} className="mb-3 pl-4 border-l-2" style={{ borderColor: colorScheme }}>
@@ -131,7 +151,7 @@ export function CreativeTemplate({ data, colorScheme }: CreativeTemplateProps) {
                   </span>
                 </div>
                 <div className="text-gray-600">{edu.major}</div>
-                {edu.gpa && <div className="text-gray-500 text-xs">IPK: {edu.gpa}</div>}
+                {edu.gpa && <div className="text-gray-500 text-xs">{t.gpa}: {edu.gpa}</div>}
               </div>
             ))}
           </div>
@@ -141,7 +161,7 @@ export function CreativeTemplate({ data, colorScheme }: CreativeTemplateProps) {
         {data.experience.length > 0 && (
           <div className="mb-6">
             <h2 className="text-xl font-bold mb-3" style={{ color: colorScheme }}>
-              Pengalaman Kerja
+              {t.sections.experience}
             </h2>
             {data.experience.map((exp, index) => (
               <div key={index} className="mb-4 pl-4 border-l-2" style={{ borderColor: colorScheme }}>

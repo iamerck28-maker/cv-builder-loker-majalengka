@@ -3,11 +3,12 @@
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useCVStore } from '@/lib/store';
-import locales from '@/locales/id.json';
+import { useLocale } from '@/hooks/useLocale';
 
 export function PersonalInfo() {
   const { data, updateData } = useCVStore();
-  const t = locales.form.personal;
+  const locale = useLocale();
+  const t = locale.form.personal;
 
   const handleChange = (field: string, value: string) => {
     updateData({

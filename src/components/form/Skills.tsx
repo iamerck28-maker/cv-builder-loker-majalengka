@@ -7,11 +7,12 @@ import { Badge } from '@/components/ui/badge';
 import { useCVStore } from '@/lib/store';
 import { Skill } from '@/types/cv';
 import { Plus, Trash2 } from 'lucide-react';
-import locales from '@/locales/id.json';
+import { useLocale } from '@/hooks/useLocale';
 
 export function SkillsForm() {
   const { data, updateData } = useCVStore();
-  const t = locales.form.skills;
+  const locale = useLocale();
+  const t = locale.form.skills;
 
   const addSkill = () => {
     const newSkill: Skill = {
