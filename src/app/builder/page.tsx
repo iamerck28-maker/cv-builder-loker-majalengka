@@ -14,9 +14,11 @@ import { CreativeTemplate } from '@/components/templates/CreativeTemplate';
 import { useCVStore } from '@/lib/store';
 import { useLocale } from '@/hooks/useLocale';
 import { generatePDF } from '@/lib/pdf';
-import { Download, Eye, FileText, Globe } from 'lucide-react';
+import { Download, Eye, FileText, Globe, LogOut } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 export default function BuilderPage() {
+  const router = useRouter();
   const {
     data,
     template,
@@ -32,6 +34,21 @@ export default function BuilderPage() {
   const locale = useLocale();
   const [activeTab, setActiveTab] = useState<'form' | 'preview'>('form');
   const [isGenerating, setIsGenerating] = useState(false);
+  const [userName, setUserName] = useState<string | null>(null);
+
+  useEffect(() => {
+    const raw = localStorage.getItem('cv-user');
+    if (!raw) {
+      router.replace('/login');
+      return;
+    }
+    try {
+      const user = JSON.parse(raw);
+      setUserName(user.name);
+    } catch {
+      router.replace('/login');
+    }
+  }, [router]);
 
   useEffect(() => {
     loadFromStorage();
@@ -53,6 +70,11 @@ export default function BuilderPage() {
     }
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('cv-user');
+    router.replace('/login');
+  };
+
   const colorOptions = [
     { name: 'Blue', value: '#1e40af' },
     { name: 'Green', value: '#16a34a' },
@@ -62,14 +84,24 @@ export default function BuilderPage() {
     { name: 'Teal', value: '#0d9488' },
   ];
 
+  if (!userName) return null;
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <header className="bg-white border-b sticky top-0 z-10">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <FileText className="h-6 w-6 text-blue-600" />
-            <span className="text-xl font-bold">CV Builder</span>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <FileText className="h-6 w-6 text-blue-600" />
+              <span className="text-xl font-bold">CV Builder</span>
+            </div>
+            <div className="flex items-center gap-2 text-sm text-gray-600">
+              <span>{userName}</span>
+              <Button variant="ghost" size="sm" onClick={handleLogout} title={locale.login.logout}>
+                <LogOut className="h-4 w-4" />
+              </Button>
+            </div>
           </div>
 
           <div className="flex items-center gap-4">
