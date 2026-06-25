@@ -35,7 +35,9 @@
       "phone": "Telepon",
       "city": "Kota",
       "linkedin": "LinkedIn (opsional)",
-      "photo": "Foto Profil"
+      "photo": "Foto Profil",
+      "photoTooBig": "Foto terlalu besar (maks 2MB)",
+      "nameRequired": "Nama wajib diisi"
     },
     "summary": {
       "title": "Ringkasan",
@@ -49,7 +51,8 @@
       "endYear": "Tahun Selesai",
       "gpa": "IPK (opsional)",
       "add": "Tambah Pendidikan",
-      "entry": "Pendidikan"
+      "entry": "Pendidikan",
+      "yearError": "Tahun selesai harus >= tahun mulai"
     },
     "experience": {
       "title": "Pengalaman Kerja",
@@ -85,6 +88,7 @@
   "template": {
     "ats": "ATS",
     "creative": "Kreatif",
+    "minimalist": "Minimal",
     "sections": {
       "summary": "Ringkasan",
       "education": "Pendidikan",
@@ -102,7 +106,25 @@
     "preview": "Preview",
     "previewCV": "Preview CV",
     "generating": "Mengunduh...",
-    "downloadPDF": "Download PDF"
+    "downloadPDF": "Download PDF",
+    "saved": "Tersimpan",
+    "saving": "Menyimpan...",
+    "settings": "Pengaturan",
+    "darkMode": "Mode Gelap",
+    "profile": "Profil",
+    "newProfile": "Profil Baru",
+    "profileName": "Nama Profil",
+    "deleteProfile": "Hapus Profil",
+    "deleteConfirm": "Hapus profil ini?",
+    "importJSON": "Import JSON",
+    "importSuccess": "Data berhasil diimpor!",
+    "importError": "File JSON tidak valid",
+    "shareLink": "Bagikan Link",
+    "shareCopied": "Link disalin ke clipboard!",
+    "shareNoPhoto": "Foto tidak disertakan dalam link berbagi",
+    "pdfSuccess": "PDF berhasil diunduh!",
+    "pdfError": "Gagal membuat PDF, coba lagi",
+    "rename": "Ubah Nama"
   },
   "actions": {
     "download": "Download PDF",
@@ -121,5 +143,11 @@
     "emailRequired": "Email harus diisi",
     "emailInvalid": "Format email tidak valid",
     "logout": "Keluar"
+  },
+  "share": {
+    "title": "CV Bersama",
+    "subtitle": "Preview CV yang dibagikan",
+    "invalid": "Link tidak valid atau data rusak",
+    "backHome": "Buat CV Anda Sendiri"
   }
 }

@@ -1,4 +1,3 @@
-// types/cv.ts
 export interface CVData {
   personal: {
     fullName: string;
@@ -6,7 +5,7 @@ export interface CVData {
     phone: string;
     city: string;
     linkedin?: string;
-    photo?: string; // base64
+    photo?: string;
   };
   summary: string;
   education: Education[];
@@ -16,6 +15,7 @@ export interface CVData {
 }
 
 export interface Education {
+  id: string;
   institution: string;
   major: string;
   startYear: number;
@@ -24,6 +24,7 @@ export interface Education {
 }
 
 export interface Experience {
+  id: string;
   company: string;
   position: string;
   startDate: string;
@@ -32,11 +33,21 @@ export interface Experience {
 }
 
 export interface Skill {
+  id: string;
   name: string;
   category: 'technical' | 'soft';
 }
 
 export interface Language {
+  id: string;
   name: string;
   level: 'Pemula' | 'Menengah' | 'Mahir' | 'Native';
+}
+
+export function generateId(): string {
+  return Date.now().toString(36) + Math.random().toString(36).slice(2);
+}
+
+export function ensureIds<T extends { id?: string }>(items: T[]): (T & { id: string })[] {
+  return items.map(item => item.id ? item as T & { id: string } : { ...item, id: generateId() });
 }

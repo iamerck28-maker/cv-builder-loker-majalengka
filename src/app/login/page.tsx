@@ -40,14 +40,14 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center px-4">
+    <main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center px-4">
       <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <div className="flex justify-center mb-4">
-            <FileText className="h-10 w-10 text-blue-600" />
+        <CardHeader className="text-center pb-4">
+          <div className="flex justify-center mb-3">
+            <FileText className="h-8 w-8 sm:h-10 sm:w-10 text-blue-600" />
           </div>
-          <CardTitle className="text-2xl">{t.title}</CardTitle>
-          <CardDescription>{t.subtitle}</CardDescription>
+          <CardTitle className="text-xl sm:text-2xl">{t.title}</CardTitle>
+          <CardDescription className="text-sm">{t.subtitle}</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -56,8 +56,9 @@ export default function LoginPage() {
               <Input
                 id="login-name"
                 value={name}
-                onChange={(e) => { setName(e.target.value); setErrors((prev) => ({ ...prev, name: undefined })); }}
+                onChange={(e) => { setName(e.target.value); setErrors(prev => ({ ...prev, name: undefined })); }}
                 placeholder={t.namePlaceholder}
+                className={errors.name ? 'border-red-500' : ''}
               />
               {errors.name && <p className="text-sm text-red-500">{errors.name}</p>}
             </div>
@@ -67,8 +68,9 @@ export default function LoginPage() {
                 id="login-email"
                 type="email"
                 value={email}
-                onChange={(e) => { setEmail(e.target.value); setErrors((prev) => ({ ...prev, email: undefined })); }}
+                onChange={(e) => { setEmail(e.target.value); setErrors(prev => ({ ...prev, email: undefined })); }}
                 placeholder={t.emailPlaceholder}
+                className={errors.email ? 'border-red-500' : ''}
               />
               {errors.email && <p className="text-sm text-red-500">{errors.email}</p>}
             </div>

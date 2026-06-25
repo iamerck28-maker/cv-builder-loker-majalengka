@@ -35,7 +35,9 @@
       "phone": "Phone",
       "city": "City",
       "linkedin": "LinkedIn (optional)",
-      "photo": "Profile Photo"
+      "photo": "Profile Photo",
+      "photoTooBig": "Photo too large (max 2MB)",
+      "nameRequired": "Name is required"
     },
     "summary": {
       "title": "Summary",
@@ -49,7 +51,8 @@
       "endYear": "End Year",
       "gpa": "GPA (optional)",
       "add": "Add Education",
-      "entry": "Education"
+      "entry": "Education",
+      "yearError": "End year must be >= start year"
     },
     "experience": {
       "title": "Work Experience",
@@ -85,6 +88,7 @@
   "template": {
     "ats": "ATS",
     "creative": "Creative",
+    "minimalist": "Minimal",
     "sections": {
       "summary": "Summary",
       "education": "Education",
@@ -102,7 +106,25 @@
     "preview": "Preview",
     "previewCV": "CV Preview",
     "generating": "Generating...",
-    "downloadPDF": "Download PDF"
+    "downloadPDF": "Download PDF",
+    "saved": "Saved",
+    "saving": "Saving...",
+    "settings": "Settings",
+    "darkMode": "Dark Mode",
+    "profile": "Profile",
+    "newProfile": "New Profile",
+    "profileName": "Profile Name",
+    "deleteProfile": "Delete Profile",
+    "deleteConfirm": "Delete this profile?",
+    "importJSON": "Import JSON",
+    "importSuccess": "Data imported successfully!",
+    "importError": "Invalid JSON file",
+    "shareLink": "Share Link",
+    "shareCopied": "Link copied to clipboard!",
+    "shareNoPhoto": "Photo is not included in the share link",
+    "pdfSuccess": "PDF downloaded successfully!",
+    "pdfError": "Failed to generate PDF, try again",
+    "rename": "Rename"
   },
   "actions": {
     "download": "Download PDF",
@@ -121,5 +143,11 @@
     "emailRequired": "Email is required",
     "emailInvalid": "Invalid email format",
     "logout": "Logout"
+  },
+  "share": {
+    "title": "Shared CV",
+    "subtitle": "Preview of a shared CV",
+    "invalid": "Invalid link or corrupted data",
+    "backHome": "Build Your Own CV"
   }
 }
