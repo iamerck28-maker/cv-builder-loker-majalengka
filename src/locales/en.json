@@ -125,7 +125,24 @@
     "shareNoPhoto": "Photo is not included in the share link",
     "pdfSuccess": "PDF downloaded successfully!",
     "pdfError": "Failed to generate PDF, try again",
-    "rename": "Rename"
+    "rename": "Rename",
+    "undo": "Undo",
+    "redo": "Redo",
+    "print": "Print",
+    "qrCode": "QR Code",
+    "qrTooltip": "Scan to view CV online"
+  },
+  "completeness": {
+    "title": "CV Completeness",
+    "missing": "Missing",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "city": "City",
+    "summary": "Summary (min. 20 chars)",
+    "education": "Education",
+    "experience": "Experience",
+    "skills": "Skills (min. 3)"
   },
   "actions": {
     "download": "Download PDF",

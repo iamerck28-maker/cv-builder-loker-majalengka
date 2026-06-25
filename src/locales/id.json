@@ -125,7 +125,24 @@
     "shareNoPhoto": "Foto tidak disertakan dalam link berbagi",
     "pdfSuccess": "PDF berhasil diunduh!",
     "pdfError": "Gagal membuat PDF, coba lagi",
-    "rename": "Ubah Nama"
+    "rename": "Ubah Nama",
+    "undo": "Urungkan",
+    "redo": "Ulangi",
+    "print": "Cetak",
+    "qrCode": "QR Code",
+    "qrTooltip": "Scan untuk lihat CV online"
+  },
+  "completeness": {
+    "title": "Kelengkapan CV",
+    "missing": "Belum lengkap",
+    "name": "Nama",
+    "email": "Email",
+    "phone": "Telepon",
+    "city": "Kota",
+    "summary": "Ringkasan (min. 20 karakter)",
+    "education": "Pendidikan",
+    "experience": "Pengalaman",
+    "skills": "Keahlian (min. 3)"
   },
   "actions": {
     "download": "Download PDF",

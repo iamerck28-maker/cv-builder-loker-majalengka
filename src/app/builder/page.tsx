@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { compressToEncodedURIComponent } from 'lz-string';
+import { QRCodeSVG } from 'qrcode.react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
@@ -13,6 +14,7 @@ import { EducationForm } from '@/components/form/Education';
 import { ExperienceForm } from '@/components/form/Experience';
 import { SkillsForm } from '@/components/form/Skills';
 import { LanguagesForm } from '@/components/form/Languages';
+import { CompletenessScore } from '@/components/form/CompletenessScore';
 import { ATSTemplate } from '@/components/templates/ATSTemplate';
 import { CreativeTemplate } from '@/components/templates/CreativeTemplate';
 import { MinimalistTemplate } from '@/components/templates/MinimalistTemplate';
@@ -23,17 +25,18 @@ import { ensureIds, type CVData } from '@/types/cv';
 import {
   Download, Eye, FileText, Globe, LogOut, Moon, Sun,
   ChevronDown, Plus, Trash2, Upload, Share2, Check, Pencil,
+  Undo2, Redo2, Printer, QrCode,
 } from 'lucide-react';
 
 export default function BuilderPage() {
   const router = useRouter();
   const {
     data, template, language, colorScheme, darkMode, saveStatus,
-    profiles, activeProfileId,
+    profiles, activeProfileId, canUndo, canRedo,
     loadFromStorage, saveToStorage,
     setTemplate, setLanguage, setColorScheme, setDarkMode,
     createProfile, deleteProfile, renameProfile, switchProfile, importData,
-    updateData,
+    updateData, undo, redo,
   } = useCVStore();
 
   const locale = useLocale();
@@ -45,6 +48,7 @@ export default function BuilderPage() {
   const [renamingId, setRenamingId] = useState<string | null>(null);
   const [renameValue, setRenameValue] = useState('');
   const [showToolbar, setShowToolbar] = useState(false);
+  const [showQR, setShowQR] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const profileMenuRef = useRef<HTMLDivElement>(null);
 
@@ -71,6 +75,20 @@ export default function BuilderPage() {
     return () => document.removeEventListener('mousedown', handleClick);
   }, []);
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'z' && !e.shiftKey) {
+        e.preventDefault();
+        undo();
+      } else if ((e.ctrlKey || e.metaKey) && (e.key === 'y' || (e.key === 'z' && e.shiftKey))) {
+        e.preventDefault();
+        redo();
+      }
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [undo, redo]);
+
   const handleDownload = async () => {
     setIsGenerating(true);
     try {
@@ -82,6 +100,11 @@ export default function BuilderPage() {
     } finally {
       setIsGenerating(false);
     }
+  };
+
+  const handlePrint = () => {
+    setActiveTab('preview');
+    setTimeout(() => window.print(), 300);
   };
 
   const handleLogout = () => {
@@ -114,7 +137,7 @@ export default function BuilderPage() {
     e.target.value = '';
   };
 
-  const handleShare = () => {
+  const getShareUrl = () => {
     const shareData = {
       ...data,
       personal: { ...data.personal, photo: undefined },
@@ -122,7 +145,11 @@ export default function BuilderPage() {
     const compressed = compressToEncodedURIComponent(JSON.stringify({
       d: shareData, t: template, c: colorScheme,
     }));
-    const url = `${window.location.origin}/share?d=${compressed}`;
+    return `${window.location.origin}/share?d=${compressed}`;
+  };
+
+  const handleShare = () => {
+    const url = getShareUrl();
     navigator.clipboard.writeText(url).then(() => {
       toast.success(locale.builder.shareCopied);
       if (data.personal.photo) toast.info(locale.builder.shareNoPhoto);
@@ -170,7 +197,7 @@ export default function BuilderPage() {
   return (
     <div className="min-h-screen bg-background transition-colors">
       {/* Header */}
-      <header className="bg-card border-b sticky top-0 z-20">
+      <header className="bg-card border-b sticky top-0 z-20 no-print">
         <div className="container mx-auto px-3 sm:px-4 py-2 sm:py-3">
           {/* Row 1: Logo + User + Core Actions */}
           <div className="flex items-center justify-between gap-2">
@@ -187,9 +214,22 @@ export default function BuilderPage() {
               </span>
               {saveStatus === 'saved' && <Check className="h-3 w-3 text-green-500 sm:hidden" />}
 
+              {/* Undo/Redo */}
+              <Button variant="ghost" size="icon" className="h-8 w-8" onClick={undo} disabled={!canUndo} title={locale.builder.undo}>
+                <Undo2 className="h-4 w-4" />
+              </Button>
+              <Button variant="ghost" size="icon" className="h-8 w-8" onClick={redo} disabled={!canRedo} title={locale.builder.redo}>
+                <Redo2 className="h-4 w-4" />
+              </Button>
+
               {/* Dark Mode */}
               <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setDarkMode(!darkMode)}>
                 {darkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+              </Button>
+
+              {/* Print */}
+              <Button variant="ghost" size="icon" className="h-8 w-8 hidden sm:inline-flex" onClick={handlePrint} title={locale.builder.print}>
+                <Printer className="h-4 w-4" />
               </Button>
 
               {/* Download */}
@@ -321,7 +361,7 @@ export default function BuilderPage() {
             {/* Divider */}
             <div className="h-5 w-px bg-border hidden sm:block" />
 
-            {/* Import & Share */}
+            {/* Import, Share, QR, Print (mobile) */}
             <div className="flex items-center gap-1">
               <input ref={fileInputRef} type="file" accept=".json" onChange={handleImport} className="hidden" />
               <Button variant="outline" size="sm" className="text-xs h-7 gap-1" onClick={() => fileInputRef.current?.click()}>
@@ -332,13 +372,31 @@ export default function BuilderPage() {
                 <Share2 className="h-3 w-3" />
                 <span className="hidden sm:inline">{locale.builder.shareLink}</span>
               </Button>
+              <Button variant="outline" size="sm" className="text-xs h-7 gap-1" onClick={() => setShowQR(!showQR)} title={locale.builder.qrCode}>
+                <QrCode className="h-3 w-3" />
+                <span className="hidden sm:inline">{locale.builder.qrCode}</span>
+              </Button>
+              <Button variant="ghost" size="icon" className="h-7 w-7 sm:hidden" onClick={handlePrint} title={locale.builder.print}>
+                <Printer className="h-3 w-3" />
+              </Button>
             </div>
           </div>
+
+          {/* QR Code popup */}
+          {showQR && (
+            <div className="mt-2 pb-2 flex items-center gap-3 p-3 bg-muted rounded-lg">
+              <QRCodeSVG value={getShareUrl()} size={96} />
+              <div className="text-xs text-muted-foreground space-y-1">
+                <p className="font-medium text-foreground">{locale.builder.qrCode}</p>
+                <p>{locale.builder.qrTooltip}</p>
+              </div>
+            </div>
+          )}
         </div>
       </header>
 
       {/* Mobile Tab Switcher */}
-      <div className="lg:hidden bg-card border-b sticky top-[52px] sm:top-[56px] z-10">
+      <div className="lg:hidden bg-card border-b sticky top-[52px] sm:top-[56px] z-10 no-print">
         <div className="flex">
           {(['form', 'preview'] as const).map(tab => (
             <button
@@ -360,8 +418,15 @@ export default function BuilderPage() {
       <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-6">
         <div className="flex flex-col lg:flex-row gap-4 lg:gap-6">
           {/* Form Section */}
-          <div className={`${activeTab === 'form' ? 'block' : 'hidden'} lg:block w-full lg:w-1/2`}>
+          <div className={`${activeTab === 'form' ? 'block' : 'hidden'} lg:block w-full lg:w-1/2 no-print`}>
             <div className="space-y-4 sm:space-y-6">
+              {/* Completeness Score */}
+              <Card>
+                <CardContent className="pt-4 sm:pt-6 px-3 sm:px-6">
+                  <CompletenessScore />
+                </CardContent>
+              </Card>
+
               <Card>
                 <CardContent className="pt-4 sm:pt-6 px-3 sm:px-6">
                   <PersonalInfo />
@@ -409,7 +474,7 @@ export default function BuilderPage() {
           {/* Preview Section */}
           <div className={`${activeTab === 'preview' ? 'block' : 'hidden'} lg:block w-full lg:w-1/2`}>
             <div className="lg:sticky lg:top-24">
-              <Card>
+              <Card className="no-print">
                 <CardHeader className="py-3 sm:py-4">
                   <CardTitle className="flex items-center gap-2 text-sm sm:text-base">
                     <Eye className="h-4 w-4 sm:h-5 sm:w-5" />
@@ -424,6 +489,10 @@ export default function BuilderPage() {
                   </div>
                 </CardContent>
               </Card>
+              {/* Hidden full-size preview for printing */}
+              <div className="hidden print:block">
+                {renderTemplate()}
+              </div>
             </div>
           </div>
         </div>

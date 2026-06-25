@@ -7,6 +7,8 @@ interface ProfileMeta {
   name: string;
 }
 
+const MAX_HISTORY = 50;
+
 interface CVStore {
   data: CVData;
   template: 'ats' | 'creative' | 'minimalist';
@@ -17,11 +19,19 @@ interface CVStore {
   profiles: ProfileMeta[];
   activeProfileId: string;
 
+  _history: CVData[];
+  _future: CVData[];
+  canUndo: boolean;
+  canRedo: boolean;
+
   updateData: (data: Partial<CVData>) => void;
   setTemplate: (template: 'ats' | 'creative' | 'minimalist') => void;
   setLanguage: (language: 'id' | 'en') => void;
   setColorScheme: (color: string) => void;
   setDarkMode: (dark: boolean) => void;
+
+  undo: () => void;
+  redo: () => void;
 
   createProfile: (name: string) => void;
   deleteProfile: (id: string) => void;
@@ -46,6 +56,19 @@ function cacheCurrentProfile() {
   });
 }
 
+let pushTimer: ReturnType<typeof setTimeout> | null = null;
+
+function debouncedHistoryPush(prevData: CVData) {
+  if (pushTimer) clearTimeout(pushTimer);
+  pushTimer = setTimeout(() => {
+    const s = useCVStore.getState();
+    if (JSON.stringify(prevData) === JSON.stringify(s.data)) return;
+    const newHistory = [...s._history, prevData].slice(-MAX_HISTORY);
+    useCVStore.setState({ _history: newHistory, _future: [], canUndo: true, canRedo: false });
+    pushTimer = null;
+  }, 500);
+}
+
 export const useCVStore = create<CVStore>((set, get) => ({
   data: getDefaultData(),
   template: 'ats',
@@ -55,9 +78,44 @@ export const useCVStore = create<CVStore>((set, get) => ({
   saveStatus: 'idle',
   profiles: [{ id: 'default', name: 'CV Utama' }],
   activeProfileId: 'default',
+  _history: [],
+  _future: [],
+  canUndo: false,
+  canRedo: false,
 
-  updateData: (newData) =>
-    set((state) => ({ data: { ...state.data, ...newData }, saveStatus: 'saving' })),
+  updateData: (newData) => {
+    const prev = get().data;
+    set((state) => ({ data: { ...state.data, ...newData }, saveStatus: 'saving' }));
+    debouncedHistoryPush(prev);
+  },
+
+  undo: () => {
+    const { _history, data, _future } = get();
+    if (_history.length === 0) return;
+    const prev = _history[_history.length - 1];
+    set({
+      data: prev,
+      _history: _history.slice(0, -1),
+      _future: [data, ..._future],
+      canUndo: _history.length > 1,
+      canRedo: true,
+      saveStatus: 'saving',
+    });
+  },
+
+  redo: () => {
+    const { _history, data, _future } = get();
+    if (_future.length === 0) return;
+    const next = _future[0];
+    set({
+      data: next,
+      _history: [..._history, data],
+      _future: _future.slice(1),
+      canUndo: true,
+      canRedo: _future.length > 1,
+      saveStatus: 'saving',
+    });
+  },
 
   setTemplate: (template) => set({ template, saveStatus: 'saving' }),
   setLanguage: (language) => set({ language, saveStatus: 'saving' }),
@@ -83,6 +141,10 @@ export const useCVStore = create<CVStore>((set, get) => ({
       template: 'ats' as const,
       colorScheme: '#1e40af',
       saveStatus: 'saving',
+      _history: [],
+      _future: [],
+      canUndo: false,
+      canRedo: false,
     }));
   },
 
@@ -101,6 +163,10 @@ export const useCVStore = create<CVStore>((set, get) => ({
         template: cached?.template || 'ats',
         colorScheme: cached?.colorScheme || '#1e40af',
         saveStatus: 'saving',
+        _history: [],
+        _future: [],
+        canUndo: false,
+        canRedo: false,
       });
     } else {
       set({ profiles: remaining, saveStatus: 'saving' });
@@ -126,11 +192,25 @@ export const useCVStore = create<CVStore>((set, get) => ({
         template: cached.template,
         colorScheme: cached.colorScheme,
         saveStatus: 'saving',
+        _history: [],
+        _future: [],
+        canUndo: false,
+        canRedo: false,
       });
     }
   },
 
-  importData: (importedData) => set({ data: importedData, saveStatus: 'saving' }),
+  importData: (importedData) => {
+    const prev = get().data;
+    set((state) => ({
+      data: importedData,
+      saveStatus: 'saving',
+      _history: [...state._history, prev].slice(-MAX_HISTORY),
+      _future: [],
+      canUndo: true,
+      canRedo: false,
+    }));
+  },
 
   loadFromStorage: () => {
     const saved = loadProfiles();
@@ -145,6 +225,10 @@ export const useCVStore = create<CVStore>((set, get) => ({
       darkMode: saved.darkMode || false,
       profiles: saved.profiles.map(p => ({ id: p.id, name: p.name })),
       activeProfileId: active.id,
+      _history: [],
+      _future: [],
+      canUndo: false,
+      canRedo: false,
     });
     if (saved.darkMode && typeof document !== 'undefined') {
       document.documentElement.classList.add('dark');
