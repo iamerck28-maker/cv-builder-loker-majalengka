@@ -46,7 +46,9 @@ export function MinimalistTemplate({ data, colorScheme, locale }: MinimalistTemp
           {data.personal.email && <span>{data.personal.email}</span>}
           {data.personal.phone && <span>{data.personal.phone}</span>}
           {data.personal.city && <span>{data.personal.city}</span>}
-          {data.personal.linkedin && <span>{data.personal.linkedin}</span>}
+          {data.personal.linkedin && (
+            <a href={data.personal.linkedin.startsWith('http') ? data.personal.linkedin : `https://${data.personal.linkedin}`} className="text-blue-600 underline">{data.personal.linkedin}</a>
+          )}
         </div>
         <div className="mt-3 h-px w-full" style={{ backgroundColor: colorScheme, opacity: 0.3 }} />
       </div>

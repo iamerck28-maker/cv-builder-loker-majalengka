@@ -83,7 +83,7 @@ export function CreativeTemplate({ data, colorScheme, locale }: CreativeTemplate
             {data.personal.linkedin && (
               <div className="flex items-center gap-2">
                 <span>💼</span>
-                <span>{data.personal.linkedin}</span>
+                <a href={data.personal.linkedin.startsWith('http') ? data.personal.linkedin : `https://${data.personal.linkedin}`} className="underline break-all">{data.personal.linkedin}</a>
               </div>
             )}
           </div>

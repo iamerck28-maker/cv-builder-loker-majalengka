@@ -122,9 +122,10 @@ export function PersonalInfo() {
           <Label htmlFor="linkedin">{t.linkedin}</Label>
           <Input
             id="linkedin"
+            type="url"
             value={data.personal.linkedin || ''}
             onChange={(e) => handleChange('linkedin', e.target.value)}
-            placeholder={t.linkedin}
+            placeholder={t.linkedinPlaceholder}
           />
         </div>
 

@@ -35,6 +35,7 @@
       "phone": "Phone",
       "city": "City",
       "linkedin": "LinkedIn (optional)",
+      "linkedinPlaceholder": "https://linkedin.com/in/your-name",
       "photo": "Profile Photo",
       "photoTooBig": "Photo too large (max 2MB)",
       "nameRequired": "Name is required"

@@ -35,6 +35,7 @@
       "phone": "Telepon",
       "city": "Kota",
       "linkedin": "LinkedIn (opsional)",
+      "linkedinPlaceholder": "https://linkedin.com/in/nama-anda",
       "photo": "Foto Profil",
       "photoTooBig": "Foto terlalu besar (maks 2MB)",
       "nameRequired": "Nama wajib diisi"
